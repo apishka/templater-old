@@ -4,6 +4,7 @@
  * Apishka templater exception
  *
  * @uses Exception
+ *
  * @author Evgeny Reykh <evgeny@reykh.com>
  */
 
