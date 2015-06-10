@@ -1,0 +1,30 @@
+{
+    "name": "apishka/templater",
+    "description": "Templater for PHP",
+    "keywords": ["templater"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Evgeny Reykh",
+            "email": "evgeny@reykh.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6",
+        "apishka/cs": "~1.0.0",
+        "apishka/easy-extend": "~1.0.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.6"
+    },
+    "autoload": {
+        "psr-0": {
+            "Apishka_Templater_": "source"
+        }
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "ApishkaTest_Templater_": "tests"
+        }
+    }
+}
