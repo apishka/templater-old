@@ -8,6 +8,6 @@
  * @author Evgeny Reykh <evgeny@reykh.com>
  */
 
-class Apishka_Templater_Exception_Runtime extends Apishka_Templater_Execption
+class Apishka_Templater_Exception_Runtime extends Apishka_Templater_Exception
 {
 }
