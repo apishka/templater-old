@@ -261,7 +261,7 @@ class Apishka_Templater_Lexer
     protected function lexData()
     {
         // if no matches are left we return the rest of the template as simple text token
-        if ($this->position == count($this->_positions[0]) - 1)
+        if ($this->_position == count($this->_positions[0]) - 1)
         {
             $this->pushToken(Apishka_Templater_Token::TYPE_TEXT, substr($this->_code, $this->_cursor));
             $this->_cursor = $this->_end;
@@ -270,20 +270,20 @@ class Apishka_Templater_Lexer
         }
 
         // Find the first token after the current cursor
-        $position = $this->_positions[0][++$this->position];
+        $position = $this->_positions[0][++$this->_position];
         while ($position[1] < $this->_cursor)
         {
-            if ($this->position == count($this->_positions[0]) - 1)
+            if ($this->_position == count($this->_positions[0]) - 1)
             {
                 return;
             }
 
-            $position = $this->_positions[0][++$this->position];
+            $position = $this->_positions[0][++$this->_position];
         }
 
         // push the template text first
         $text = $textContent = substr($this->_code, $this->_cursor, $position[1] - $this->_cursor);
-        if (isset($this->_positions[2][$this->position][0]))
+        if (isset($this->_positions[2][$this->_position][0]))
         {
             $text = rtrim($text);
         }
@@ -291,7 +291,7 @@ class Apishka_Templater_Lexer
         $this->pushToken(Apishka_Templater_Token::TYPE_TEXT, $text);
         $this->moveCursor($textContent . $position[0]);
 
-        switch ($this->_positions[1][$this->position][0])
+        switch ($this->_positions[1][$this->_position][0])
         {
             case $this->_options['tag_comment'][0]:
             {

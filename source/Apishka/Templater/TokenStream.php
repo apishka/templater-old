@@ -78,7 +78,7 @@ class Apishka_Templater_TokenStream
     {
         if (!isset($this->_tokens[++$this->_current]))
         {
-            throw new Apishka_Templater_Error_Syntax('Unexpected end of template', $this->_tokens[$this->_current - 1]->getLine(), $this->_filename);
+            throw new Apishka_Templater_Exception_Syntax('Unexpected end of template', $this->_tokens[$this->_current - 1]->getLine(), $this->_filename);
         }
 
         return $this->_tokens[$this->_current - 1];
@@ -110,7 +110,7 @@ class Apishka_Templater_TokenStream
         if (!$token->test($type, $value))
         {
             $line = $token->getLine();
-            throw new Apishka_Templater_Error_Syntax(sprintf('%sUnexpected token "%s" of value "%s" ("%s" expected%s)',
+            throw new Apishka_Templater_Exception_Syntax(sprintf('%sUnexpected token "%s" of value "%s" ("%s" expected%s)',
                 $message ? $message . '. ' : '',
                 Apishka_Templater_Token::typeToEnglish($token->getType()), $token->getValue(),
                 Apishka_Templater_Token::typeToEnglish($type), $value ? sprintf(' with value "%s"', $value) : ''),
@@ -135,7 +135,7 @@ class Apishka_Templater_TokenStream
     {
         if (!isset($this->_tokens[$this->_current + $number]))
         {
-            throw new Apishka_Templater_Error_Syntax('Unexpected end of template', $this->_tokens[$this->_current + $number - 1]->getLine(), $this->_filename);
+            throw new Apishka_Templater_Exception_Syntax('Unexpected end of template', $this->_tokens[$this->_current + $number - 1]->getLine(), $this->_filename);
         }
 
         return $this->_tokens[$this->_current + $number];
