@@ -4,6 +4,7 @@
  * Apishka templater test lexer test
  *
  * @uses PHPUnit_Framework_TestCase
+ *
  * @author Alexander "grevus" Lobtsov <alex@lobtsov.com>
  */
 
@@ -60,11 +61,11 @@ class Apishka_Templater_Test_LexerTest extends PHPUnit_Framework_TestCase
     public function testLineDirective()
     {
         $template = "foo\n"
-            ."bar\n"
-            ."{% line 10 %}\n"
-            ."{{\n"
-            ."baz\n"
-            ."}}\n";
+            . "bar\n"
+            . "{% line 10 %}\n"
+            . "{{\n"
+            . "baz\n"
+            . "}}\n";
 
         $lexer = new Apishka_Templater_Lexer();
         $stream = $lexer->tokenize($template);
@@ -82,9 +83,9 @@ class Apishka_Templater_Test_LexerTest extends PHPUnit_Framework_TestCase
     public function testLineDirectiveInline()
     {
         $template = "foo\n"
-            ."bar{% line 10 %}{{\n"
-            ."baz\n"
-            ."}}\n";
+            . "bar{% line 10 %}{{\n"
+            . "baz\n"
+            . "}}\n";
 
         $lexer = new Apishka_Templater_Lexer();
         $stream = $lexer->tokenize($template);
@@ -99,7 +100,7 @@ class Apishka_Templater_Test_LexerTest extends PHPUnit_Framework_TestCase
 
     public function testLongComments()
     {
-        $template = '{# '.str_repeat('*', 100000).' #}';
+        $template = '{# ' . str_repeat('*', 100000) . ' #}';
 
         $lexer = new Apishka_Templater_Lexer();
         $lexer->tokenize($template);
@@ -109,7 +110,7 @@ class Apishka_Templater_Test_LexerTest extends PHPUnit_Framework_TestCase
 
     public function testLongVerbatim()
     {
-        $template = '{% verbatim %}'.str_repeat('*', 100000).'{% endverbatim %}';
+        $template = '{% verbatim %}' . str_repeat('*', 100000) . '{% endverbatim %}';
 
         $lexer = new Apishka_Templater_Lexer();
         $lexer->tokenize($template);
@@ -119,7 +120,7 @@ class Apishka_Templater_Test_LexerTest extends PHPUnit_Framework_TestCase
 
     public function testLongVar()
     {
-        $template = '{{ '.str_repeat('x', 100000).' }}';
+        $template = '{{ ' . str_repeat('x', 100000) . ' }}';
 
         $lexer = new Apishka_Templater_Lexer();
         $lexer->tokenize($template);
@@ -129,7 +130,7 @@ class Apishka_Templater_Test_LexerTest extends PHPUnit_Framework_TestCase
 
     public function testLongBlock()
     {
-        $template = '{% '.str_repeat('x', 100000).' %}';
+        $template = '{% ' . str_repeat('x', 100000) . ' %}';
 
         $lexer = new Apishka_Templater_Lexer();
         $lexer->tokenize($template);
