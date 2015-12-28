@@ -46,6 +46,19 @@ abstract class Apishka_Templater_NodeAbstract implements Apishka_Templater_NodeI
     protected $_tag;
 
     /**
+     * Get supported type
+     *
+     * @return array
+     */
+
+    public function getSupportedTypes()
+    {
+        return array(
+            'common' => 1,
+        );
+    }
+
+    /**
      * Constructor.
      *
      * The nodes are automatically made available as properties ($this->node).

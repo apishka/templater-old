@@ -11,6 +11,28 @@
 class Apishka_Templater_NodeRouter extends \Apishka\EasyExtend\Router\ByKeyAbstract
 {
     /**
+     * Get items by type
+     *
+     * @param string $type
+     *
+     * @return array
+     */
+
+    public function getItemsByType($type)
+    {
+        $items = $this->getData();
+
+        $result = array();
+        foreach ($items as $key => $data)
+        {
+            if (array_key_exists($type, $data['types']))
+                $result[$key] = $data;
+        }
+
+        return $result;
+    }
+
+    /**
      * Checks item for correct information
      *
      * @param \ReflectionClass $reflector
@@ -37,10 +59,18 @@ class Apishka_Templater_NodeRouter extends \Apishka\EasyExtend\Router\ByKeyAbstr
         return $item->getSupportedNames();
     }
 
+    /**
+     * Get class data
+     *
+     * @param \ReflectionClass $reflector
+     * @param mixed            $item
+     *
+     * @return array
+     */
+
     protected function getClassData(\ReflectionClass $reflector, $item)
     {
         $data = parent::getClassData($reflector, $item);
-
 
         $data['types'] = $this->getSupportedTypes();
 
