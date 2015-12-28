@@ -4,6 +4,7 @@
  * Apishka templater node router
  *
  * @uses \Apishka\EasyExtend\Router\ByKeyAbstract
+ *
  * @author Alexander "grevus" Lobtsov <alex@lobtsov.com>
  */
 

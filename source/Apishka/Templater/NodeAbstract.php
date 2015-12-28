@@ -226,7 +226,7 @@ abstract class Apishka_Templater_NodeAbstract implements Apishka_Templater_NodeI
     /**
      * Sets a node.
      *
-     * @param string    $name
+     * @param string                 $name
      * @param Apishka_Templater_Node $node
      */
 
