@@ -12,6 +12,19 @@
 abstract class Apishka_Templater_Node_Expression_UnaryAbstract extends Apishka_Templater_Node_ExpressionAbstract
 {
     /**
+     * Get supported types
+     *
+     * @return array
+     */
+
+    public function getSupportedTypes()
+    {
+        return array(
+            'unary' => 1,
+        );
+    }
+
+    /**
      * Construct
      *
      * @param Apishka_Templater_Node $node

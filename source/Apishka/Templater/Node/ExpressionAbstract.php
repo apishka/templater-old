@@ -3,7 +3,7 @@
 /**
  * Apishka templater node expression abstract
  *
- * @uses Apishka_Templater_Node
+ * @uses Apishka_Templater_NodeAbstract
  * @abstract
  *
  * @author Alexander "grevus" Lobtsov <alex@lobtsov.com>

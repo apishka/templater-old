@@ -72,7 +72,7 @@ class Apishka_Templater_NodeRouter extends \Apishka\EasyExtend\Router\ByKeyAbstr
     {
         $data = parent::getClassData($reflector, $item);
 
-        $data['types'] = $this->getSupportedTypes();
+        $data['types'] = $item->getSupportedTypes();
 
         return $data;
     }

@@ -12,6 +12,19 @@
 abstract class Apishka_Templater_Node_Expression_BinaryAbstract extends Apishka_Templater_Node_ExpressionAbstract
 {
     /**
+     * Get supported types
+     *
+     * @return array
+     */
+
+    public function getSupportedTypes()
+    {
+        return array(
+            'binary' => 1,
+        );
+    }
+
+    /**
      * Construct
      *
      * @param Apishka_Templater_Node $left
@@ -59,6 +72,8 @@ abstract class Apishka_Templater_Node_Expression_BinaryAbstract extends Apishka_
      *
      * @param Apishka_Templater_Compiler $compiler
      * @abstract
+     *
+     * @return Apishka_Templater_Compiler
      */
 
     abstract public function operator(Apishka_Templater_Compiler $compiler);
