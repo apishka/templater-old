@@ -584,8 +584,8 @@ class Apishka_Templater_Lexer
     {
         $operators = array_merge(
             array('='),
-            $this->getUnaryOperators(),
-            $this->getBinaryOperators()
+            array_keys(Apishka_Templater_Config::getInstance()->getUnaryOperators()),
+            array_keys(Apishka_Templater_Config::getInstance()->getBinaryOperators())
         );
 
         $operators = array_combine($operators, array_map('strlen', $operators));
@@ -612,28 +612,6 @@ class Apishka_Templater_Lexer
         }
 
         return '/' . implode('|', $regex) . '/A';
-    }
-
-    /**
-     * Get unary operators
-     *
-     * @return array
-     */
-
-    protected function getUnaryOperators()
-    {
-        return array_keys(Apishka_Templater_NodeRouter::apishka()->getItemsByType('unary'));
-    }
-
-    /**
-     * Get binary operators
-     *
-     * @return array
-     */
-
-    protected function getBinaryOperators()
-    {
-        return array_keys(Apishka_Templater_NodeRouter::apishka()->getItemsByType('binary'));
     }
 
     /**
