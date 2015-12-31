@@ -63,10 +63,14 @@ class Apishka_Templater_Test_TokenStreamTest extends PHPUnit_Framework_TestCase
 
     public function testEndOfTemplateNext()
     {
-        $stream = new Apishka_Templater_TokenStream(array(
-            new Apishka_Templater_Token(Apishka_Templater_Token::TYPE_BLOCK_START, 1, 1),
-        ));
-        while (!$stream->isEOF()) {
+        $stream = new Apishka_Templater_TokenStream(
+            array(
+                new Apishka_Templater_Token(Apishka_Templater_Token::TYPE_BLOCK_START, 1, 1),
+            )
+        );
+
+        while (!$stream->isEOF())
+        {
             $stream->next();
         }
     }
