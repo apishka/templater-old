@@ -26,7 +26,10 @@ class Apishka_Templater_NodeRouter extends \Apishka\EasyExtend\Router\ByKeyAbstr
         foreach ($items as $key => $data)
         {
             if (array_key_exists($type, $data['types']))
-                $result[$key] = $data;
+            {
+                foreach ($data['names'] as $name)
+                    $result[$name] = $data;
+            }
         }
 
         return $result;
@@ -56,7 +59,15 @@ class Apishka_Templater_NodeRouter extends \Apishka\EasyExtend\Router\ByKeyAbstr
 
     protected function getClassVariants(\ReflectionClass $reflector, $item)
     {
-        return $item->getSupportedNames();
+        $result = array();
+
+        foreach ($item->getSupportedTypes() as $type => $data)
+        {
+            foreach ($item->getSupportedNames() as $name)
+                $result[] = implode(':', [$type, $name]);
+        }
+
+        return $result;
     }
 
     /**
@@ -72,6 +83,7 @@ class Apishka_Templater_NodeRouter extends \Apishka\EasyExtend\Router\ByKeyAbstr
     {
         $data = parent::getClassData($reflector, $item);
 
+        $data['names'] = $item->getSupportedNames();
         $data['types'] = $item->getSupportedTypes();
 
         if ($item instanceof Apishka_Templater_Node_ExpressionAbstract)
