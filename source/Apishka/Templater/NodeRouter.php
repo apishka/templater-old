@@ -74,6 +74,12 @@ class Apishka_Templater_NodeRouter extends \Apishka\EasyExtend\Router\ByKeyAbstr
 
         $data['types'] = $item->getSupportedTypes();
 
+        if ($item instanceof Apishka_Templater_Node_ExpressionAbstract)
+        {
+            $data['precedence']     = $item->getPrecedence();
+            $data['associativity']  = $item->getAssociativity();
+        }
+
         return $data;
     }
 }

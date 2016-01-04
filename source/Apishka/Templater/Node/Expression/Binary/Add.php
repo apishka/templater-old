@@ -35,4 +35,26 @@ class Apishka_Templater_Node_Expression_Binary_Add extends Apishka_Templater_Nod
     {
         return $compiler->raw('+');
     }
+
+    /**
+     * Get precedence
+     *
+     * @return int
+     */
+
+    public function getPrecedence()
+    {
+        return 30;
+    }
+
+    /**
+     * Get associativity
+     *
+     * @return int
+     */
+
+    public function getAssociativity()
+    {
+        return Apishka_Templater_ExpressionParser::OPERATOR_LEFT;
+    }
 }
