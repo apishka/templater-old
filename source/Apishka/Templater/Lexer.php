@@ -584,8 +584,8 @@ class Apishka_Templater_Lexer
     {
         $operators = array_merge(
             array('='),
-            array_keys(Apishka_Templater_Config::getInstance()->getUnaryOperators()),
-            array_keys(Apishka_Templater_Config::getInstance()->getBinaryOperators())
+            array_keys(Apishka_Templater_Manager::getInstance()->getUnaryOperators()),
+            array_keys(Apishka_Templater_Manager::getInstance()->getBinaryOperators())
         );
 
         $operators = array_combine($operators, array_map('strlen', $operators));
