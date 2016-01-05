@@ -11,21 +11,4 @@
 
 abstract class Apishka_Templater_Node_ExpressionAbstract extends Apishka_Templater_NodeAbstract
 {
-    /**
-     * Get precedence
-     *
-     * @abstract
-     * @return int
-     */
-
-    abstract public function getPrecedence();
-
-    /**
-     * Get associativity
-     *
-     * @abstract
-     * @return int
-     */
-
-    abstract public function getAssociativity();
 }

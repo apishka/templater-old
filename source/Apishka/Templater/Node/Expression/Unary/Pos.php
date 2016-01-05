@@ -45,15 +45,4 @@ class Apishka_Templater_Node_Expression_Unary_Pos extends Apishka_Templater_Node
     {
         return 500;
     }
-
-    /**
-     * Get associativity
-     *
-     * @return int
-     */
-
-    public function getAssociativity()
-    {
-        return null;
-    }
 }

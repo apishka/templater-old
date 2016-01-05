@@ -56,6 +56,15 @@ abstract class Apishka_Templater_Node_Expression_UnaryAbstract extends Apishka_T
     }
 
     /**
+     * Get precedence
+     *
+     * @abstract
+     * @return int
+     */
+
+    abstract public function getPrecedence();
+
+    /**
      * Operator
      *
      * @param Apishka_Templater_Compiler $compiler

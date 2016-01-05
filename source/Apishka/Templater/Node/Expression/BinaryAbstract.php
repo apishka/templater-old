@@ -77,4 +77,22 @@ abstract class Apishka_Templater_Node_Expression_BinaryAbstract extends Apishka_
      */
 
     abstract public function operator(Apishka_Templater_Compiler $compiler);
+
+    /**
+     * Get precedence
+     *
+     * @abstract
+     * @return int
+     */
+
+    abstract public function getPrecedence();
+
+    /**
+     * Get associativity
+     *
+     * @abstract
+     * @return int
+     */
+
+    abstract public function getAssociativity();
 }

@@ -86,10 +86,15 @@ class Apishka_Templater_NodeRouter extends \Apishka\EasyExtend\Router\ByKeyAbstr
         $data['names'] = $item->getSupportedNames();
         $data['types'] = $item->getSupportedTypes();
 
-        if ($item instanceof Apishka_Templater_Node_ExpressionAbstract)
+        if ($item instanceof Apishka_Templater_Node_Expression_BinaryAbstract)
         {
             $data['precedence']     = $item->getPrecedence();
             $data['associativity']  = $item->getAssociativity();
+        }
+
+        if ($item instanceof Apishka_Templater_Node_Expression_UnaryAbstract)
+        {
+            $data['precedence']     = $item->getPrecedence();
         }
 
         return $data;
