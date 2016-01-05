@@ -11,31 +11,6 @@
 class Apishka_Templater_Node_Expression_UnaryRouter extends \Apishka\EasyExtend\Router\ByKeyAbstract
 {
     /**
-     * Get items by type
-     *
-     * @param string $type
-     *
-     * @return array
-     */
-
-    public function getItemsByType($type)
-    {
-        $items = $this->getData();
-
-        $result = array();
-        foreach ($items as $key => $data)
-        {
-            if (array_key_exists($type, $data['types']))
-            {
-                foreach ($data['names'] as $name)
-                    $result[$name] = $data;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
      * Checks item for correct information
      *
      * @param \ReflectionClass $reflector
