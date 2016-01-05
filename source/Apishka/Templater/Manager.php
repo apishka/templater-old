@@ -70,7 +70,7 @@ class Apishka_Templater_Manager
     {
         if ($this->_unary_operators === null)
         {
-            $this->_unary_operators = Apishka_Templater_NodeRouter::apishka()->getItemsByType('unary');
+            $this->_unary_operators = Apishka_Templater_Node_Expression_UnaryRouter::apishka()->getData();
         }
 
         return $this->_unary_operators;
@@ -86,7 +86,7 @@ class Apishka_Templater_Manager
     {
         if ($this->_binary_operators === null)
         {
-            $this->_binary_operators = Apishka_Templater_NodeRouter::apishka()->getItemsByType('binary');
+            $this->_binary_operators = Apishka_Templater_Node_Expression_BinaryRouter::apishka()->getData();
         }
 
         return $this->_binary_operators;

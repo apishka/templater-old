@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Apishka templater node router
+ * Apishka templater node expression unary router
  *
  * @uses \Apishka\EasyExtend\Router\ByKeyAbstract
  *
  * @author Alexander "grevus" Lobtsov <alex@lobtsov.com>
  */
 
-class Apishka_Templater_NodeRouter extends \Apishka\EasyExtend\Router\ByKeyAbstract
+class Apishka_Templater_Node_Expression_UnaryRouter extends \Apishka\EasyExtend\Router\ByKeyAbstract
 {
     /**
      * Get items by type
@@ -45,13 +45,7 @@ class Apishka_Templater_NodeRouter extends \Apishka\EasyExtend\Router\ByKeyAbstr
 
     protected function isCorrectItem(\ReflectionClass $reflector)
     {
-        if ($reflector->isSubclassOf('Apishka_Templater_Node_Expression_BinaryAbstract'))
-            return false;
-
-        if ($reflector->isSubclassOf('Apishka_Templater_Node_Expression_UnaryAbstract'))
-            return false;
-
-        return $reflector->isSubclassOf('Apishka_Templater_NodeInterface');
+        return $reflector->isSubclassOf('Apishka_Templater_Node_Expression_UnaryAbstract');
     }
 
     /**
@@ -81,8 +75,7 @@ class Apishka_Templater_NodeRouter extends \Apishka\EasyExtend\Router\ByKeyAbstr
     {
         $data = parent::getClassData($reflector, $item);
 
-        $data['names'] = $item->getSupportedNames();
-        $data['types'] = $item->getSupportedTypes();
+        $data['precedence']     = $item->getPrecedence();
 
         return $data;
     }
