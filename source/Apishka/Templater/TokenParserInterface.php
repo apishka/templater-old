@@ -31,9 +31,9 @@ interface Apishka_Templater_TokenParserInterface
      *
      * @param Apishka_Templater_Token $token A Apishka_Templater_Token instance
      *
-     * @return Apishka_Templater_Node A Apishka_Templater_Node instance
-     *
      * @throws Apishka_Templater_Exception_Syntax
+     *
+     * @return Apishka_Templater_Node A Apishka_Templater_Node instance
      */
 
     public function parse(Apishka_Templater_Token $token);

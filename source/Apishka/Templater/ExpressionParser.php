@@ -19,7 +19,7 @@ class Apishka_Templater_ExpressionParser
     /**
      * Constants
      *
-     * @type int
+     * @var int
      */
 
     const OPERATOR_LEFT     = 1;
@@ -48,6 +48,7 @@ class Apishka_Templater_ExpressionParser
      * Parse expression
      *
      * @param int $precedence
+     *
      * @return Apishka_Templater_NodeAbstract
      */
 
@@ -92,16 +93,20 @@ class Apishka_Templater_ExpressionParser
         if ($this->isUnary($token))
         {
             $operator = $this->getUnaryOperators()[$token->getValue()];
+
             $this->getParser()->getStream()->next();
-            $expr = $this->parseExpression($operator['precedence']);
-            $class = $operator['class'];
+
+            $expr   = $this->parseExpression($operator['precedence']);
+            $class  = $operator['class'];
 
             return $this->parsePostfixExpression(new $class($expr, $token->getLine()));
         }
         elseif ($token->test(Apishka_Templater_Token::TYPE_PUNCTUATION, '('))
         {
             $this->getParser()->getStream()->next();
+
             $expr = $this->parseExpression();
+
             $this->getParser()->getStream()->expect(Apishka_Templater_Token::TYPE_PUNCTUATION, ')', 'An opened parenthesis is not properly closed');
 
             return $this->parsePostfixExpression($expr);
@@ -114,6 +119,7 @@ class Apishka_Templater_ExpressionParser
      * Parse conditional expression
      *
      * @param Apishka_Templater_NodeAbstract $expr
+     *
      * @return Apishka_Templater_NodeAbstract
      */
 
@@ -157,6 +163,7 @@ class Apishka_Templater_ExpressionParser
      * Is unary
      *
      * @param Apishka_Templater_Token $token
+     *
      * @return bool
      */
 
@@ -169,6 +176,7 @@ class Apishka_Templater_ExpressionParser
      * Is binary
      *
      * @param Apishka_Templater_Token $token
+     *
      * @return bool
      */
 
@@ -480,7 +488,7 @@ class Apishka_Templater_ExpressionParser
 
                 $name = $arg->getAttribute('value');
 
-                $node = Apishka_Templater_Node_Expression_MethodCall::apishka($node, 'macro_'.$name, $arguments, $lineno);
+                $node = Apishka_Templater_Node_Expression_MethodCall::apishka($node, 'macro_' . $name, $arguments, $lineno);
                 $node->setAttribute('safe', true);
 
                 return $node;
@@ -520,7 +528,7 @@ class Apishka_Templater_ExpressionParser
             $stream->expect(Apishka_Templater_Token::TYPE_PUNCTUATION, ']');
         }
 
-        return new Apishka_Templater_Node_Expression_GetAttr($node, $arg, $arguments, $type, $lineno);
+        return Apishka_Templater_Node_Expression_GetAttr::apishka($node, $arg, $arguments, $type, $lineno);
     }
 
     public function parseFilterExpression($node)
@@ -562,9 +570,9 @@ class Apishka_Templater_ExpressionParser
      * @param bool $namedArguments Whether to allow named arguments or not
      * @param bool $definition     Whether we are parsing arguments for a function definition
      *
-     * @return Apishka_Templater_Node
-     *
      * @throws Apishka_Templater_Exception_Syntax
+     *
+     * @return Apishka_Templater_Node
      */
     public function parseArguments($namedArguments = false, $definition = false)
     {

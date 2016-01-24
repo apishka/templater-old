@@ -4,6 +4,7 @@
  * Apishka templater node expression array
  *
  * @uses Apishka_Templater_Node_ExpressionAbstract
+ *
  * @author Alexander "grevus" Lobtsov <alex@lobtsov.com>
  */
 
@@ -21,7 +22,7 @@ class Apishka_Templater_Node_Expression_Array extends Apishka_Templater_Node_Exp
      * Construct
      *
      * @param array $elements
-     * @param int $lineno
+     * @param int   $lineno
      */
 
     public function __construct(array $elements, $lineno)
@@ -62,6 +63,7 @@ class Apishka_Templater_Node_Expression_Array extends Apishka_Templater_Node_Exp
      * Has element
      *
      * @param Apishka_Templater_Node_ExpressionAbstract $key
+     *
      * @return bool
      */
 
@@ -83,6 +85,7 @@ class Apishka_Templater_Node_Expression_Array extends Apishka_Templater_Node_Exp
      *
      * @param Apishka_Templater_Node_ExpressionAbstract $value
      * @param Apishka_Templater_Node_ExpressionAbstract $key
+     *
      * @return Apishka_Templater_Node_Expression_Array
      */
 

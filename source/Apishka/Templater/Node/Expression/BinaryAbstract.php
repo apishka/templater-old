@@ -82,6 +82,7 @@ abstract class Apishka_Templater_Node_Expression_BinaryAbstract extends Apishka_
      * Get precedence
      *
      * @abstract
+     *
      * @return int
      */
 
@@ -91,6 +92,7 @@ abstract class Apishka_Templater_Node_Expression_BinaryAbstract extends Apishka_
      * Get associativity
      *
      * @abstract
+     *
      * @return int
      */
 

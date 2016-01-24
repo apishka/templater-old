@@ -5,6 +5,7 @@
  *
  * @uses Apishka_Templater_TokenParserInterface
  * @abstract
+ *
  * @author Alexander "grevus" Lobtsov <alex@lobtsov.com>
  */
 

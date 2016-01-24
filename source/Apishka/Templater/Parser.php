@@ -138,9 +138,8 @@ class Apishka_Templater_Parser
      * Parse
      *
      * @param Apishka_Templater_TokenStream $stream
-     * @param mixed $test
-     * @param bool $dropNeedle
-     * @return void
+     * @param mixed                         $test
+     * @param bool                          $dropNeedle
      */
 
     public function parse(Apishka_Templater_TokenStream $stream, $test = null, $dropNeedle = false)
@@ -167,16 +166,16 @@ class Apishka_Templater_Parser
             $this->_visitors = $this->getNodeVisitors();
 
         if ($this->_expressionParser === null)
-            $this->_expressionParser = new Apishka_Templater_ExpressionParser($this);
+            $this->_expressionParser = Apishka_Templater_ExpressionParser::Apishka($this);
 
-        $this->_stream = $stream;
-        $this->_parent = null;
-        $this->_blocks = array();
-        $this->_macros = array();
-        $this->_traits = array();
-        $this->_blockStack = array();
-        $this->_importedSymbols = array(array());
-        $this->_embeddedTemplates = array();
+        $this->_stream              = $stream;
+        $this->_parent              = null;
+        $this->_blocks              = array();
+        $this->_macros              = array();
+        $this->_traits              = array();
+        $this->_blockStack          = array();
+        $this->_importedSymbols     = array(array());
+        $this->_embeddedTemplates   = array();
 
         try
         {
@@ -302,7 +301,7 @@ class Apishka_Templater_Parser
      * Add handler
      *
      * @param string $name
-     * @param mixed $class
+     * @param mixed  $class
      *
      * @return Apishka_Templater_Parser
      */
@@ -318,6 +317,7 @@ class Apishka_Templater_Parser
      * Add node visitor
      *
      * @param Apishka_Templater_NodeVisitorInterface $visitor
+     *
      * @return Apishka_Templater_Parser
      */
 
@@ -367,6 +367,7 @@ class Apishka_Templater_Parser
      * Push block stack
      *
      * @param string $name
+     *
      * @return Apishka_Templater_Parser
      */
 
@@ -381,6 +382,7 @@ class Apishka_Templater_Parser
      * Has block
      *
      * @param string $name
+     *
      * @return bool
      */
 
@@ -393,6 +395,7 @@ class Apishka_Templater_Parser
      * Get block
      *
      * @param string $name
+     *
      * @return Apishka_Templater_Node_Block
      */
 
@@ -404,8 +407,9 @@ class Apishka_Templater_Parser
     /**
      * Set block
      *
-     * @param string $name
+     * @param string                       $name
      * @param Apishka_Templater_Node_Block $value
+     *
      * @return Apishka_Templater_Parser
      */
 
@@ -420,6 +424,7 @@ class Apishka_Templater_Parser
      * Has macro
      *
      * @param string $name
+     *
      * @return bool
      */
 
@@ -431,8 +436,9 @@ class Apishka_Templater_Parser
     /**
      * Set macro
      *
-     * @param string $name
+     * @param string                       $name
      * @param Apishka_Templater_Node_Macro $node
+     *
      * @return Apishka_Templater_Parser
      */
 
@@ -447,6 +453,7 @@ class Apishka_Templater_Parser
      * Add trait
      *
      * @param mixed $trait
+     *
      * @return Apishka_Templater_Parser
      */
 
@@ -472,6 +479,7 @@ class Apishka_Templater_Parser
      * Embed template
      *
      * @param Apishka_Templater_Node_Module $template
+     *
      * @return Apishka_Templater_Parser
      */
 
@@ -487,10 +495,11 @@ class Apishka_Templater_Parser
     /**
      * Add imported symbol
      *
-     * @param string $type
-     * @param string $alias
-     * @param string  $name
+     * @param string                            $type
+     * @param string                            $alias
+     * @param string                            $name
      * @param Apishka_Templater_Node_Expression $node
+     *
      * @return Apishka_Templater_Parser
      */
 
@@ -506,6 +515,7 @@ class Apishka_Templater_Parser
      *
      * @param string $type
      * @param string $alias
+     *
      * @return mixed
      */
 
@@ -581,6 +591,7 @@ class Apishka_Templater_Parser
      * Set parent
      *
      * @param mixed $parent
+     *
      * @return jclass
      */
 
@@ -617,6 +628,7 @@ class Apishka_Templater_Parser
      * Filter body nodes
      *
      * @param Apishka_Templater_Node $node
+     *
      * @return Apishka_Templater_Node
      */
 
@@ -629,7 +641,7 @@ class Apishka_Templater_Parser
             (!$node instanceof Apishka_Templater_Node_Text && !$node instanceof Apishka_Templater_Node_BlockReference && $node instanceof Apishka_Templater_NodeOutputInterface)
         )
         {
-            if (false !== strpos((string) $node, chr(0xEF).chr(0xBB).chr(0xBF)))
+            if (false !== strpos((string) $node, chr(0xEF) . chr(0xBB) . chr(0xBF)))
                 throw new Apishka_Templater_Exception_Syntax('A template that extends another one cannot have a body but a byte order mark (BOM) has been detected; it must be removed.', $node->getLine(), $this->getFilename());
 
             throw new Apishka_Templater_Exception_Syntax('A template that extends another one cannot have a body.', $node->getLine(), $this->getFilename());

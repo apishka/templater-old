@@ -4,6 +4,7 @@
  * Apishka templater node
  *
  * @uses Apishka_Templater_NodeAbstract
+ *
  * @author Alexander "grevus" Lobtsov <alex@lobtsov.com>
  */
 

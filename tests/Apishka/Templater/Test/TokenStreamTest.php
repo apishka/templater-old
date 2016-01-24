@@ -4,6 +4,7 @@
  * Apishka templater test token stream test
  *
  * @uses PHPUnit_Framework_TestCase
+ *
  * @author Alexander "grevus" Lobtsov <alex@lobtsov.com>
  */
 
