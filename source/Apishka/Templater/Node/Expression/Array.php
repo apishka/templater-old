@@ -18,19 +18,6 @@ class Apishka_Templater_Node_Expression_Array extends Apishka_Templater_Node_Exp
     private $_index;
 
     /**
-     * Get supported names
-     *
-     * @return array
-     */
-
-    public function getSupportedNames()
-    {
-        return array(
-            'array',
-        );
-    }
-
-    /**
      * Construct
      *
      * @param array $elements
@@ -102,8 +89,7 @@ class Apishka_Templater_Node_Expression_Array extends Apishka_Templater_Node_Exp
     public function addElement(Apishka_Templater_Node_ExpressionAbstract $value, Apishka_Templater_Node_ExpressionAbstract $key = null)
     {
         if ($key === null)
-            $key = Apishka_Templater_NodeRouter::apishka()->getItem('common:constant');
-            //$key = new Apishka_Templater_Node_Expression_Constant(++$this->_index, $value->getLine());
+            $key = Apishka_Templater_Node_Expression_Constant::apishka(++$this->_index, $value->getLine());
 
         array_push($this->_nodes, $key, $value);
 

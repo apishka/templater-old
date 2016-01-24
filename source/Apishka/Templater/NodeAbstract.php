@@ -11,8 +11,14 @@
  * @author Alexander "grevus" Lobtsov <alex@lobtsov.com>
  */
 
-abstract class Apishka_Templater_NodeAbstract implements Apishka_Templater_NodeInterface, Countable, IteratorAggregate
+abstract class Apishka_Templater_NodeAbstract implements Countable, IteratorAggregate
 {
+    /**
+     * Trait
+     */
+
+    use Apishka\EasyExtend\Helper\ByClassNameTrait;
+
     /**
      * Nodes
      *

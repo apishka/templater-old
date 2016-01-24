@@ -199,12 +199,12 @@ class Apishka_Templater_Parser
             throw $e;
         }
 
-        $node = new Apishka_Templater_Node_Module(
-            new Apishka_Templater_Node_Body(array($body)),
+        $node = Apishka_Templater_Node_Module::apishka(
+            Apishka_Templater_Node_Body::apishka(array($body)),
             $this->_parent,
-            new Apishka_Templater_Node($this->_blocks),
-            new Apishka_Templater_Node($this->_macros),
-            new Apishka_Templater_Node($this->_traits),
+            Apishka_Templater_Node::apishka($this->_blocks),
+            Apishka_Templater_Node::apishka($this->_macros),
+            Apishka_Templater_Node::apishka($this->_traits),
             $this->_embeddedTemplates,
             $this->getFilename()
         );

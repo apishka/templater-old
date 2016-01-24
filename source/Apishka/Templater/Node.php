@@ -9,16 +9,4 @@
 
 class Apishka_Templater_Node extends Apishka_Templater_NodeAbstract
 {
-    /**
-     * Get supported names
-     *
-     * @return array
-     */
-
-    public function getSupportedNames()
-    {
-        return array(
-            'base',
-        );
-    }
 }
