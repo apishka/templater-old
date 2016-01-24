@@ -213,12 +213,19 @@ class Apishka_Templater_Parser
         $node = $traverser->traverse($node);
 
         // restore previous stack so previous parse() call can resume working
-        foreach (array_pop($this->stack) as $key => $val) {
+        foreach (array_pop($this->_stack) as $key => $val)
             $this->$key = $val;
-        }
 
         return $node;
     }
+
+    /**
+     * Subparse
+     *
+     * @param mixed $test
+     * @param mixed $dropNeedle
+     * @return void
+     */
 
     public function subparse($test, $dropNeedle = false)
     {

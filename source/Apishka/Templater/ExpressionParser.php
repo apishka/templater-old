@@ -293,6 +293,12 @@ class Apishka_Templater_ExpressionParser
         return $this->parsePostfixExpression($node);
     }
 
+    /**
+     * Parse string expression
+     *
+     * @return Apishka_Templater_Node_Expression_Binary_Concat
+     */
+
     public function parseStringExpression()
     {
         $stream = $this->getParser()->getStream();
@@ -300,15 +306,21 @@ class Apishka_Templater_ExpressionParser
         $nodes = array();
         // a string cannot be followed by another string in a single expression
         $nextCanBeString = true;
-        while (true) {
-            if ($nextCanBeString && $token = $stream->nextIf(Apishka_Templater_Token::TYPE_STRING)) {
+        while (true)
+        {
+            if ($nextCanBeString && $token = $stream->nextIf(Apishka_Templater_Token::TYPE_STRING))
+            {
                 $nodes[] = Apishka_Templater_Node_Expression_Constant::apishka($token->getValue(), $token->getLine());
                 $nextCanBeString = false;
-            } elseif ($stream->nextIf(Apishka_Templater_Token::TYPE_INTERPOLATION_START)) {
+            }
+            elseif ($stream->nextIf(Apishka_Templater_Token::TYPE_INTERPOLATION_START))
+            {
                 $nodes[] = $this->parseExpression();
                 $stream->expect(Apishka_Templater_Token::TYPE_INTERPOLATION_END);
                 $nextCanBeString = true;
-            } else {
+            }
+            else
+            {
                 break;
             }
         }
@@ -321,6 +333,12 @@ class Apishka_Templater_ExpressionParser
         return $expr;
     }
 
+    /**
+     * Parse array expression
+     *
+     * @return Apishka_Templater_Node_Expression_Array
+     */
+
     public function parseArrayExpression()
     {
         $stream = $this->getParser()->getStream();
@@ -328,23 +346,32 @@ class Apishka_Templater_ExpressionParser
 
         $node = Apishka_Templater_Node_Expression_Array::apishka(array(), $stream->getCurrent()->getLine());
         $first = true;
-        while (!$stream->test(Apishka_Templater_Token::TYPE_PUNCTUATION, ']')) {
-            if (!$first) {
+        while (!$stream->test(Apishka_Templater_Token::TYPE_PUNCTUATION, ']'))
+        {
+            if (!$first)
+            {
                 $stream->expect(Apishka_Templater_Token::TYPE_PUNCTUATION, ',', 'An array element must be followed by a comma');
 
                 // trailing ,?
-                if ($stream->test(Apishka_Templater_Token::TYPE_PUNCTUATION, ']')) {
+                if ($stream->test(Apishka_Templater_Token::TYPE_PUNCTUATION, ']'))
                     break;
-                }
             }
+
             $first = false;
 
             $node->addElement($this->parseExpression());
         }
+
         $stream->expect(Apishka_Templater_Token::TYPE_PUNCTUATION, ']', 'An opened array is not properly closed');
 
         return $node;
     }
+
+    /**
+     * Parse hash expression
+     *
+     * @return Apishka_Templater_NodeInterface
+     */
 
     public function parseHashExpression()
     {
@@ -353,14 +380,15 @@ class Apishka_Templater_ExpressionParser
 
         $node = Apishka_Templater_Node_Expression_Array::apishka(array(), $stream->getCurrent()->getLine());
         $first = true;
-        while (!$stream->test(Apishka_Templater_Token::TYPE_PUNCTUATION, '}')) {
-            if (!$first) {
+        while (!$stream->test(Apishka_Templater_Token::TYPE_PUNCTUATION, '}'))
+        {
+            if (!$first)
+            {
                 $stream->expect(Apishka_Templater_Token::TYPE_PUNCTUATION, ',', 'A hash value must be followed by a comma');
 
                 // trailing ,?
-                if ($stream->test(Apishka_Templater_Token::TYPE_PUNCTUATION, '}')) {
+                if ($stream->test(Apishka_Templater_Token::TYPE_PUNCTUATION, '}'))
                     break;
-                }
             }
             $first = false;
 
@@ -370,14 +398,26 @@ class Apishka_Templater_ExpressionParser
             //  * a string -- 'a'
             //  * a name, which is equivalent to a string -- a
             //  * an expression, which must be enclosed in parentheses -- (1 + 2)
-            if (($token = $stream->nextIf(Apishka_Templater_Token::TYPE_STRING)) || ($token = $stream->nextIf(Apishka_Templater_Token::TYPE_NAME)) || $token = $stream->nextIf(Apishka_Templater_Token::TYPE_NUMBER)) {
+            if (($token = $stream->nextIf(Apishka_Templater_Token::TYPE_STRING)) || ($token = $stream->nextIf(Apishka_Templater_Token::TYPE_NAME)) || $token = $stream->nextIf(Apishka_Templater_Token::TYPE_NUMBER))
+            {
                 $key = Apishka_Templater_Node_Expression_Constant::apishka($token->getValue(), $token->getLine());
-            } elseif ($stream->test(Apishka_Templater_Token::TYPE_PUNCTUATION, '(')) {
+            }
+            elseif ($stream->test(Apishka_Templater_Token::TYPE_PUNCTUATION, '('))
+            {
                 $key = $this->parseExpression();
-            } else {
+
+            } else
+            {
                 $current = $stream->getCurrent();
 
-                throw new Apishka_Templater_Exception_Syntax(sprintf('A hash key must be a quoted string, a number, a name, or an expression enclosed in parentheses (unexpected token "%s" of value "%s"', Apishka_Templater_Token::typeToEnglish($current->getType()), $current->getValue()), $current->getLine(), $this->getParser()->getFilename());
+                throw new Apishka_Templater_Exception_Syntax(
+                    sprintf(
+                        'A hash key must be a quoted string, a number, a name, or an expression enclosed in parentheses (unexpected token "%s" of value "%s"',
+                        Apishka_Templater_Token::typeToEnglish($current->getType()), $current->getValue()
+                    ),
+                    $current->getLine(),
+                    $this->getParser()->getFilename()
+                );
             }
 
             $stream->expect(Apishka_Templater_Token::TYPE_PUNCTUATION, ':', 'A hash key must be followed by a colon (:)');
@@ -385,24 +425,41 @@ class Apishka_Templater_ExpressionParser
 
             $node->addElement($value, $key);
         }
+
         $stream->expect(Apishka_Templater_Token::TYPE_PUNCTUATION, '}', 'An opened hash is not properly closed');
 
         return $node;
     }
 
+    /**
+     * Parse postfix expression
+     *
+     * @param Apishka_Templater_NodeInterface $node
+     * @return Apishka_Templater_NodeInterface
+     */
+
     public function parsePostfixExpression($node)
     {
-        while (true) {
+        while (true)
+        {
             $token = $this->getParser()->getCurrentToken();
-            if ($token->getType() == Apishka_Templater_Token::TYPE_PUNCTUATION) {
-                if ('.' == $token->getValue() || '[' == $token->getValue()) {
+            if ($token->getType() == Apishka_Templater_Token::TYPE_PUNCTUATION)
+            {
+                if ('.' == $token->getValue() || '[' == $token->getValue())
+                {
                     $node = $this->parseSubscriptExpression($node);
-                } elseif ('|' == $token->getValue()) {
+                }
+                elseif ('|' == $token->getValue())
+                {
                     $node = $this->parseFilterExpression($node);
-                } else {
+                }
+                else
+                {
                     break;
                 }
-            } else {
+            }
+            else
+            {
                 break;
             }
         }
@@ -410,35 +467,48 @@ class Apishka_Templater_ExpressionParser
         return $node;
     }
 
+    /**
+     * Get function node
+     *
+     * @param string $name
+     * @param int $line
+     * @return void
+     */
+
     public function getFunctionNode($name, $line)
     {
-        switch ($name) {
+        switch ($name)
+        {
             case 'parent':
+            {
                 $this->parseArguments();
-                if (!count($this->getParser()->getBlockStack())) {
+                if (!count($this->getParser()->getBlockStack()))
                     throw new Apishka_Templater_Exception_Syntax('Calling "parent" outside a block is forbidden', $line, $this->getParser()->getFilename());
-                }
 
-                if (!$this->getParser()->getParent() && !$this->getParser()->hasTraits()) {
+                if (!$this->getParser()->getParent() && !$this->getParser()->hasTraits())
                     throw new Apishka_Templater_Exception_Syntax('Calling "parent" on a template that does not extend nor "use" another template is forbidden', $line, $this->getParser()->getFilename());
-                }
 
                 return Apishka_Templater_Node_Expression_Parent::apishka($this->getParser()->peekBlockStack(), $line);
+            }
             case 'block':
+            {
                 return Apishka_Templater_Node_Expression_BlockReference::apishka($this->parseArguments()->getNode(0), false, $line);
+            }
             case 'attribute':
+            {
                 $args = $this->parseArguments();
-                if (count($args) < 2) {
+                if (count($args) < 2)
                     throw new Apishka_Templater_Exception_Syntax('The "attribute" function takes at least two arguments (the variable and the attributes)', $line, $this->getParser()->getFilename());
-                }
 
                 return Apishka_Templater_Node_Expression_GetAttr::apishka($args->getNode(0), $args->getNode(1), count($args) > 2 ? $args->getNode(2) : null, Apishka_Templater_Template::ANY_CALL, $line);
+            }
             default:
-                if (null !== $alias = $this->getParser()->getImportedSymbol('function', $name)) {
+            {
+                if (null !== $alias = $this->getParser()->getImportedSymbol('function', $name))
+                {
                     $arguments = Apishka_Templater_Node_Expression_Array::apishka(array(), $line);
-                    foreach ($this->parseArguments() as $n) {
+                    foreach ($this->parseArguments() as $n)
                         $arguments->addElement($n);
-                    }
 
                     $node = Apishka_Templater_Node_Expression_MethodCall::apishka($alias['node'], $alias['name'], $arguments, $line);
                     $node->setAttribute('safe', true);
@@ -450,17 +520,27 @@ class Apishka_Templater_ExpressionParser
                 $class = $this->getFunctionNodeClass($name, $line);
 
                 return new $class($name, $args, $line);
+            }
         }
     }
 
+    /**
+     * Parse subscript expression
+     *
+     * @param Apishka_Templater_NodeInterface $node
+     * @return Apishka_Templater_NodeInterface
+     */
+
     public function parseSubscriptExpression($node)
     {
-        $stream = $this->getParser()->getStream();
-        $token = $stream->next();
-        $lineno = $token->getLine();
-        $arguments = Apishka_Templater_Node_Expression_Array::apishka(array(), $lineno);
-        $type = Apishka_Templater_Template::ANY_CALL;
-        if ($token->getValue() == '.') {
+        $stream     = $this->getParser()->getStream();
+        $token      = $stream->next();
+        $lineno     = $token->getLine();
+        $arguments  = Apishka_Templater_Node_Expression_Array::apishka(array(), $lineno);
+        $type       = Apishka_Templater_Template::ANY_CALL;
+
+        if ($token->getValue() == '.')
+        {
             $token = $stream->next();
             if (
                 $token->getType() == Apishka_Templater_Token::TYPE_NAME
@@ -468,23 +548,26 @@ class Apishka_Templater_ExpressionParser
                 $token->getType() == Apishka_Templater_Token::TYPE_NUMBER
                 ||
                 ($token->getType() == Apishka_Templater_Token::TYPE_OPERATOR && preg_match(Apishka_Templater_Lexer::REGEX_NAME, $token->getValue()))
-            ) {
+            )
+            {
                 $arg = Apishka_Templater_Node_Expression_Constant::apishka($token->getValue(), $lineno);
 
-                if ($stream->test(Apishka_Templater_Token::TYPE_PUNCTUATION, '(')) {
+                if ($stream->test(Apishka_Templater_Token::TYPE_PUNCTUATION, '('))
+                {
                     $type = Apishka_Templater_Template::METHOD_CALL;
-                    foreach ($this->parseArguments() as $n) {
+                    foreach ($this->parseArguments() as $n)
                         $arguments->addElement($n);
-                    }
                 }
-            } else {
+            }
+            else
+            {
                 throw new Apishka_Templater_Exception_Syntax('Expected name or number', $lineno, $this->getParser()->getFilename());
             }
 
-            if ($node instanceof Apishka_Templater_Node_Expression_Name && null !== $this->getParser()->getImportedSymbol('template', $node->getAttribute('name'))) {
-                if (!$arg instanceof Apishka_Templater_Node_Expression_Constant) {
+            if ($node instanceof Apishka_Templater_Node_Expression_Name && null !== $this->getParser()->getImportedSymbol('template', $node->getAttribute('name')))
+            {
+                if (!$arg instanceof Apishka_Templater_Node_Expression_Constant)
                     throw new Apishka_Templater_Exception_Syntax(sprintf('Dynamic macro names are not supported (called on "%s")', $node->getAttribute('name')), $token->getLine(), $this->getParser()->getFilename());
-                }
 
                 $name = $arg->getAttribute('value');
 
@@ -493,24 +576,30 @@ class Apishka_Templater_ExpressionParser
 
                 return $node;
             }
-        } else {
+        }
+        else
+        {
             $type = Apishka_Templater_Template::ARRAY_CALL;
 
             // slice?
             $slice = false;
-            if ($stream->test(Apishka_Templater_Token::TYPE_PUNCTUATION, ':')) {
+            if ($stream->test(Apishka_Templater_Token::TYPE_PUNCTUATION, ':'))
+            {
                 $slice = true;
                 $arg = Apishka_Templater_Node_Expression_Constant::apishka(0, $token->getLine());
-            } else {
+            }
+            else
+            {
                 $arg = $this->parseExpression();
             }
 
-            if ($stream->nextIf(Apishka_Templater_Token::TYPE_PUNCTUATION, ':')) {
+            if ($stream->nextIf(Apishka_Templater_Token::TYPE_PUNCTUATION, ':'))
                 $slice = true;
-            }
 
-            if ($slice) {
-                if ($stream->test(Apishka_Templater_Token::TYPE_PUNCTUATION, ']')) {
+            if ($slice)
+            {
+                if ($stream->test(Apishka_Templater_Token::TYPE_PUNCTUATION, ']'))
+                {
                     $length = Apishka_Templater_Node_Expression_Constant::apishka(null, $token->getLine());
                 } else {
                     $length = $this->parseExpression();
