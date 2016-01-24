@@ -185,7 +185,7 @@ class Apishka_Templater_Parser
             if (null !== $this->_parent)
             {
                 if (null === $body = $this->filterBodyNodes($body))
-                    $body = new Apishka_Templater_Node();
+                    $body = Apishka_Templater_Node::apishka();
             }
         }
         catch (Apishka_Templater_Exception_Syntax $e)
@@ -209,7 +209,7 @@ class Apishka_Templater_Parser
             $this->getFilename()
         );
 
-        $traverser = new Apishka_Templater_NodeTraverser($this->env, $this->_visitors);
+        $traverser = Apishka_Templater_NodeTraverser::apishka($this->env, $this->_visitors);
 
         $node = $traverser->traverse($node);
 
@@ -232,14 +232,14 @@ class Apishka_Templater_Parser
             {
                 case Apishka_Templater_Token::TYPE_TEXT:
                     $token = $this->_stream->next();
-                    $rv[] = new Apishka_Templater_Node_Text($token->getValue(), $token->getLine());
+                    $rv[] = Apishka_Templater_Node_Text::apishka($token->getValue(), $token->getLine());
                     break;
 
                 case Apishka_Templater_Token::TYPE_VAR_START:
                     $token = $this->_stream->next();
                     $expr = $this->_expressionParser->parseExpression();
                     $this->_stream->expect(Apishka_Templater_Token::TYPE_VAR_END);
-                    $rv[] = new Apishka_Templater_Node_Print($expr, $token->getLine());
+                    $rv[] = Apishka_Templater_Node_Print::apishka($expr, $token->getLine());
                     break;
 
                 case Apishka_Templater_Token::TYPE_BLOCK_START:
@@ -257,7 +257,7 @@ class Apishka_Templater_Parser
                         if (1 === count($rv))
                             return $rv[0];
 
-                        return new Apishka_Templater_Node($rv, array(), $lineno);
+                        return Apishka_Templater_Node::apishka($rv, array(), $lineno);
                     }
 
                     if (!isset($this->_handlers[$token->getValue()]))
@@ -295,7 +295,7 @@ class Apishka_Templater_Parser
         if (1 === count($rv))
             return $rv[0];
 
-        return new Apishka_Templater_Node($rv, array(), $lineno);
+        return Apishka_Templater_Node::apishka($rv, array(), $lineno);
     }
 
     /**
@@ -411,7 +411,7 @@ class Apishka_Templater_Parser
 
     public function setBlock($name, Apishka_Templater_Node_Block $value)
     {
-        $this->_blocks[$name] = new Apishka_Templater_Node_Body(array($value), array(), $value->getLine());
+        $this->_blocks[$name] = Apishka_Templater_Node_Body::apishka(array($value), array(), $value->getLine());
 
         return $this;
     }
